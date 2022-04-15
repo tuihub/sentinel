@@ -14,14 +14,21 @@ pub struct Opt {
     #[structopt(short, long, parse(from_os_str))]
     pub folder: PathBuf,
 
-    #[structopt(long, default_value = "0")]
-    pub depth: u8,
+    #[structopt(long, default_value = "1")]
+    pub depth: usize,
 
     #[structopt(short, long)]
     pub host: String,
 
     #[structopt(short, long)]
     pub port: String,
+
+    /// Only connect to server and scan folder
+    #[structopt(long)]
+    pub dry_run: bool,
+
+    #[structopt(short)]
+    pub daemon: bool,
 }
 
 /// Return command arguments
