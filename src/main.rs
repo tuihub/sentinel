@@ -1,21 +1,14 @@
-use sentinel::greeter_client::GreeterClient;
-use sentinel::ReportReq;
-
-pub mod sentinel {
-    tonic::include_proto!("sentinel");
-}
+mod error;
+mod arguments;
+mod logging;
+mod rpc;
+pub use error::{err_msg, Result};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut client = GreeterClient::connect("http://[::1]:50051").await?;
-
-    let request = tonic::Request::new(ReportReq {
-        token: "".into()
-    });
-
-    let response = client.report(request).await?;
-
-    println!("RESPONSE={:?}", response);
+    let opt = arguments::get_opt();
+    logging::init(opt.verbose);
+    rpc::init(opt.host, opt.port, opt.token).await?;
 
     Ok(())
 }
