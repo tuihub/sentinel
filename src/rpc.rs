@@ -1,7 +1,7 @@
 use log::{info, debug};
 use tonic::transport::Channel;
 use crate::Result;
-use sentinel::greeter_client::GreeterClient;
+use sentinel::sentinel_service_client::SentinelServiceClient;
 use sentinel::ReportReq;
 
 pub mod sentinel {
@@ -9,12 +9,12 @@ pub mod sentinel {
 }
 
 pub struct Client{
-    rpc: GreeterClient<Channel>,
+    rpc: SentinelServiceClient<Channel>,
     token: String,
 }
 
 pub async fn init(host: String, port: String, token: String) -> Result<Client> {
-    let mut client = GreeterClient::connect(format!("http://{}:{}", host, port)).await?;
+    let mut client = SentinelServiceClient::connect(format!("http://{}:{}", host, port)).await?;
 
     let request = tonic::Request::new(gen_report_req(token.clone(), None));
 
