@@ -16,7 +16,8 @@ pub struct Client{
 pub async fn init(host: String, port: String, token: String) -> Result<Client> {
     let mut client = SentinelServiceClient::connect(format!("http://{}:{}", host, port)).await?;
 
-    let request = tonic::Request::new(gen_report_req(token.clone(), None));
+    let mut request = tonic::Request::new(gen_report_req(None));
+    request.metadata_mut().insert("authorization", format!("token {}", token).parse()?);
 
     let response = client.report(request).await?;
 
@@ -30,7 +31,8 @@ pub async fn init(host: String, port: String, token: String) -> Result<Client> {
 
 impl Client {
     pub async fn report(mut self, list: Vec<String>) -> Result<()> {
-        let request = tonic::Request::new(gen_report_req(self.token, Some(list)));
+        let mut request = tonic::Request::new(gen_report_req(Some(list)));
+        request.metadata_mut().insert("authorization", format!("token {}", self.token).parse()?);
         debug!("ReportReq: {:?}", request);
         let response = self.rpc.report(request).await?;
         debug!("ReportResp: {:?}", response);
@@ -38,12 +40,11 @@ impl Client {
     }
 }
 
-fn gen_report_req(token: String, list: Option<Vec<String>>) -> ReportReq {
+fn gen_report_req(list: Option<Vec<String>>) -> ReportReq {
     let list = list.unwrap_or_default();
     let infos: Vec<ReportInfo> = list.into_iter()
         .map(|file_name| ReportInfo{file_name, file_size: None}).collect();
     ReportReq { 
-        token, 
         infos,
     }
 }
