@@ -2,7 +2,7 @@ use log::{info, debug};
 use tonic::transport::Channel;
 use crate::Result;
 use sentinel::sentinel_service_client::SentinelServiceClient;
-use sentinel::ReportReq;
+use sentinel::{ReportReq, ReportInfo};
 
 pub mod sentinel {
     tonic::include_proto!("sentinel");
@@ -40,8 +40,10 @@ impl Client {
 
 fn gen_report_req(token: String, list: Option<Vec<String>>) -> ReportReq {
     let list = list.unwrap_or_default();
+    let infos: Vec<ReportInfo> = list.into_iter()
+        .map(|file_name| ReportInfo{file_name, file_size: None}).collect();
     ReportReq { 
         token, 
-        list
+        infos,
     }
 }
