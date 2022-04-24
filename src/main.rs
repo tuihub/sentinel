@@ -12,8 +12,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     logging::init(opt.verbose);
     let client = match rpc::init(opt.host, opt.port, opt.token).await {
         Ok(client) => Some(client),
-        Err(_) => {
-            error!("Connect to server failed");
+        Err(e) => {
+            error!("Connect to server failed: {}", e);
             if !opt.dry_run {
                 return Ok(())
             }
