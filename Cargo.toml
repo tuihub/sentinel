@@ -7,13 +7,14 @@ readme = "README.md"
 edition = "2021"
 
 [dependencies]
-tonic = "0.7"
-prost = "0.10"
+tonic = "0.8"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 anyhow = "1.0"
 log = "0.4.14"
 structopt = "0.3"
 walkdir = "2"
+tuihub-protos = { git = "https://github.com/TuiHub/Protos", version = "0.2.2", features = ["librarian-sephirah-v1"] }
+fancy-regex = "0.10.0"
 
 [build-dependencies]
 tonic-build = "0.7"

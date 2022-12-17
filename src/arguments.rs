@@ -29,7 +29,15 @@ pub struct Opt {
 
     #[structopt(short)]
     pub daemon: bool,
+
+    #[structopt(short, long, possible_values(MODE_VALS))]
+    pub scan_mode: String,
 }
+
+const MODE_VALS: &[&str] = &[MODE_SINGLE, MODE_FIXED, MODE_FILES];
+pub const MODE_SINGLE: &str = "single-file";
+pub const MODE_FIXED: &str = "fixed-depth";
+pub const MODE_FILES: &str = "files-folder";
 
 /// Return command arguments
 pub fn get_opt() -> Opt {
