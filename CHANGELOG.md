@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/TuiHub/Sentinel/compare/v0.0.2...v0.0.3) (2022-12-17)
+
+
+### Bug Fixes
+
+* ci ([a052d18](https://github.com/TuiHub/Sentinel/commit/a052d18bb0b578713b03aad45986825fe8bdc0ff))
+
 ## [0.0.2](https://github.com/TuiHub/Sentinel/compare/v0.0.1...v0.0.2) (2022-12-17)
 
 
