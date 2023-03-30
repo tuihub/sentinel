@@ -34,7 +34,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
     info!("Scan result: {:?}", list);
 
-    client.map(|c| c.report(list));
+    if let Some(c) = client {
+        c.report(list).await?;
+    }
 
     if opt.daemon {
         error!("Daemon mod not supportted");
