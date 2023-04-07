@@ -1,10 +1,10 @@
 mod arguments;
-mod error;
 mod logging;
 mod rpc;
-mod scanner;
-pub use error::{err_msg, Result};
+
 use log::{error, info, warn};
+use sentinel::scanner;
+use sentinel::Result;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -39,8 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if opt.daemon {
-        error!("Daemon mod not supportted");
-        loop {}
+        error!("Daemon mod not supported");
     }
     Ok(())
 }

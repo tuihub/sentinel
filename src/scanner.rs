@@ -19,12 +19,13 @@ pub fn fixed_depth_mode(folder: PathBuf, depth: usize) -> Vec<ScanResult> {
         .max_depth(depth)
         .into_iter()
         .filter_map(|entry| entry.ok())
-        .filter_map(
-            |entry| match entry.file_name().to_str().map(|file| file.to_owned()) {
-                Some(file_name) => Some((entry, file_name)),
-                None => None,
-            },
-        )
+        .filter_map(|entry| {
+            entry
+                .file_name()
+                .to_str()
+                .map(|file| file.to_owned())
+                .map(|file_name| (entry, file_name))
+        })
         .map(|(entry, file_name)| {
             let mut path = entry.clone().into_path();
             path.pop();
@@ -63,10 +64,11 @@ pub fn single_file_mode(folder: PathBuf, max_depth: usize) -> Vec<ScanResult> {
         })
         .filter(|(_, metadata)| metadata.is_file())
         .filter_map(|(entry, metadata)| {
-            match entry.file_name().to_str().map(|file| file.to_owned()) {
-                Some(file_name) => Some((entry, metadata, file_name)),
-                None => None,
-            }
+            entry
+                .file_name()
+                .to_str()
+                .map(|file| file.to_owned())
+                .map(|file_name| (entry, metadata, file_name))
         })
         .map(|(entry, metadata, file_name)| {
             let mut path = entry.into_path();
@@ -118,12 +120,10 @@ pub fn files_folder_mode(folder: PathBuf, max_depth: usize) -> Vec<ScanResult> {
             let name = regex
                 .captures(&format!("{}", path.display()))
                 .unwrap_or(None)
-                .and_then(|cap| {
-                    Some(
-                        cap.iter()
-                            .filter_map(|m| m)
-                            .fold(String::new(), |name: String, m: Match| name + m.as_str()),
-                    )
+                .map(|cap| {
+                    cap.iter()
+                        .flatten()
+                        .fold(String::new(), |name: String, m: Match| name + m.as_str())
                 });
             if name.is_none() {
                 warn!("Regex take name failed")
