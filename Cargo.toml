@@ -16,6 +16,10 @@ structopt = "0.3"
 walkdir = "2"
 tuihub-protos = { git = "https://github.com/TuiHub/Protos", version = "0.2.14", features = ["librarian-sephirah-v1"] }
 fancy-regex = "0.11.0"
+boon = "0.5.0"
+serde_json = "1.0.95"
+serde = "1.0.159"
+zip = "0.6.4"
 
 [build-dependencies]
 tonic-build = "0.8.4"
