@@ -1,8 +1,6 @@
 use std::{collections::HashMap, vec::IntoIter};
 
-use crate::{scanner::ScanResult, Result};
 use log::debug;
-
 use tonic::transport::Channel;
 use tuihub_protos::librarian::{
     sephirah::v1::{
@@ -10,6 +8,8 @@ use tuihub_protos::librarian::{
     },
     v1::AppPackageBinary,
 };
+
+use crate::{scanner::ScanResult, Result};
 
 pub struct Client {
     rpc: LibrarianSephirahServiceClient<Channel>,
