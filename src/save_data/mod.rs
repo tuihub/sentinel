@@ -19,9 +19,12 @@ use crate::{
 
 ///
 pub struct CommonPath {
-    document: PathBuf,
-    profile: PathBuf,
-    game: PathBuf,
+    ///
+    pub document: PathBuf,
+    ///
+    pub profile: PathBuf,
+    ///
+    pub game: PathBuf,
 }
 
 const CONFIG_FILE_NAME: &str = "tuihub_savedata_config.json";
@@ -45,7 +48,10 @@ pub fn restore(common: CommonPath, file_path: PathBuf) -> Result<()> {
             return Err(err_msg!("invalid entry"));
         }
         let target_dir = common.combine(&entry.base_dir_mode, &entry.base_dir);
-        let target_dir = fs::canonicalize(target_dir)?;
+        let target_dir = match target_dir.is_dir() {
+            true => fs::canonicalize(target_dir)?,
+            false => target_dir,
+        };
         if entry.clear_base_dir_before_restore && target_dir.is_dir() {
             fs::remove_dir_all(&target_dir)?;
         }

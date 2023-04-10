@@ -1,9 +1,8 @@
 mod arguments;
-mod logging;
 mod rpc;
 
 use log::{error, info, warn};
-use sentinel::{scanner, Result};
+use sentinel::{scanner, Result, __private::logging};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
