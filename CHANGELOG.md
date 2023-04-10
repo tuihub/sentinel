@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.4](https://github.com/TuiHub/Sentinel/compare/v0.0.3...v0.0.4) (2023-04-10)
+
+
+### Features
+
+* add save data v1 store & restore function ([1cd926e](https://github.com/TuiHub/Sentinel/commit/1cd926e97f6c7214476810d50d198422f0397cfa))
+* add savedata-cli ([ab443a3](https://github.com/TuiHub/Sentinel/commit/ab443a3c336398441c2336afb81e851edcd05fe6))
+* upgrade to save data v2 & add format config ([83dd09b](https://github.com/TuiHub/Sentinel/commit/83dd09b1dd903e273f4e5ea24420f0d176c7aba9))
+
+
+### Bug Fixes
+
+* **deps:** update ([624f5fe](https://github.com/TuiHub/Sentinel/commit/624f5fe55402829066b4d6189e65b6c9b18680e7))
+
 ## [0.0.3](https://github.com/TuiHub/Sentinel/compare/v0.0.2...v0.0.3) (2022-12-17)
 
 
