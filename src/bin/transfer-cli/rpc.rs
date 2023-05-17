@@ -42,15 +42,15 @@ impl Client {
 
     pub async fn upload_file(&mut self, mut reader: fs::File, token: String) -> Result<()> {
         let mut request = Request::new(async_stream::stream! {
-            let mut buffer = [0u8; 1024];
+            let mut buffer = [0u8; 32*1024];
             loop {
-                match reader.read(&mut buffer) {
+                let n = match reader.read(&mut buffer) {
                     Ok(0) => break,
-                    Ok(_) => {},
+                    Ok(n) => {n},
                     _ => panic!("")
-                }
+                };
                 let note = SimpleUploadFileRequest{
-                    data: bytes::Bytes::from(Vec::from(buffer)),
+                    data: bytes::Bytes::from(Vec::from(&buffer[..n])),
                 };
                 yield note;
             }
