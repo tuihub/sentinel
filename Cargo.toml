@@ -15,16 +15,22 @@ fancy-regex = "0.11.0"
 glob = "0.3.1"
 jsonschema = "0.17.0"
 lazy_static = "1.4.0"
+libc = "0.2.144"
 log = "0.4.14"
 once_cell = "1.17.1"
 serde = "1.0.159"
 serde_json = "1.0.95"
 structopt = "0.3"
+strum = "0.24.1"
+strum_macros = "0.24.3"
+sysinfo = "0.29.0"
+time = "0.3.21"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 tokio-stream = "0.1.11"
 tonic = "0.9.0"
 tuihub-protos = { git = "https://github.com/TuiHub/Protos", version = "0.2.17", features = ["librarian-sephirah-v1"] }
 walkdir = "2"
+winapi = "0.3.9"
 zip = "0.6.4"
 
 [build-dependencies]

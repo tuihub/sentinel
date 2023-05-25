@@ -2,6 +2,8 @@
 //! Sentinel
 
 ///
+pub mod process_tracing;
+///
 pub mod save_data;
 /// File scanner for searching app files
 pub mod scanner;
