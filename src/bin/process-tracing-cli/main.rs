@@ -10,6 +10,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         opt.trace_mode,
         &opt.exe_name,
         opt.exe_path.as_path(),
+        opt.mon_path.as_path(),
+        opt.working_dir.as_path(),
         100,
         1000,
     )?;

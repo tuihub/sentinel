@@ -16,6 +16,12 @@ pub struct Opt {
     #[structopt(long)]
     pub exe_name: String,
 
+    #[structopt(long, parse(from_os_str))]
+    pub mon_path: PathBuf,
+
+    #[structopt(long, parse(from_os_str))]
+    pub working_dir: PathBuf,
+
     #[structopt(long)]
     pub trace_mode: TraceMode,
 }

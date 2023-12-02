@@ -29,12 +29,16 @@ pub enum TraceMode {
 pub fn start_and_trace(
     mode: TraceMode,
     name: &str,
-    path: &Path,
+    execute_path: &Path,
+    monitor_path: &Path,
+    working_dir: &Path,
     sleep_count: i32,
     sleep_millis: u64,
 ) -> Result<(time::OffsetDateTime, time::OffsetDateTime, bool)> {
-    let mut child = process::Command::new(path).spawn()?;
     let start_time = time::OffsetDateTime::now_utc();
+    let mut child = process::Command::new(execute_path)
+        .current_dir(working_dir)
+        .spawn()?;
     match mode {
         TraceMode::Simple => {
             let status = child.wait()?;
@@ -47,7 +51,11 @@ pub fn start_and_trace(
                 let s = System::new_all();
                 let exit_code_mutex = Arc::new(Mutex::new(0));
                 let processes: Vec<&Process> = s
-                    .processes_by_exact_name(name)
+                    .processes()
+                    .values()
+                    .filter(move |val: &&Process| {
+                        val.name().to_lowercase().contains(&name.to_lowercase())
+                    })
                     .filter(|p| {
                         time::OffsetDateTime::from(
                             UNIX_EPOCH.add(time::Duration::seconds(p.start_time() as i64)),
@@ -55,7 +63,7 @@ pub fn start_and_trace(
                         .add(time::Duration::seconds(1))
                             > start_time
                     })
-                    .filter(|p| p.exe() == path)
+                    .filter(|p| p.exe() == monitor_path)
                     .collect();
                 info!("processes num: {}", processes.len());
                 let handles: Vec<_> = processes
@@ -120,10 +128,14 @@ fn wait_for_process_exit(pid: u32) -> Result<i32> {
 
 #[cfg(target_os = "windows")]
 fn wait_for_process_exit(pid: u32) -> Result<i32> {
-    use winapi::um::{
-        processthreadsapi::{GetExitCodeProcess, OpenProcess},
-        synchapi::WaitForSingleObject,
-        winnt::{DWORD, PROCESS_QUERY_INFORMATION, STILL_ACTIVE, SYNCHRONIZE},
+    use winapi::{
+        shared::minwindef::DWORD,
+        um::{
+            minwinbase::STILL_ACTIVE,
+            processthreadsapi::{GetExitCodeProcess, OpenProcess},
+            synchapi::WaitForSingleObject,
+            winnt::{PROCESS_QUERY_INFORMATION, SYNCHRONIZE},
+        },
     };
 
     unsafe {
@@ -138,8 +150,8 @@ fn wait_for_process_exit(pid: u32) -> Result<i32> {
         GetExitCodeProcess(handle, &mut exit_code);
 
         if exit_code == STILL_ACTIVE {
-            WaitForSingleObject(process_handle, INFINITE);
-            GetExitCodeProcess(process_handle, &mut exit_code);
+            WaitForSingleObject(handle, winapi::um::winbase::INFINITE);
+            GetExitCodeProcess(handle, &mut exit_code);
         }
 
         Ok(exit_code as i32)
