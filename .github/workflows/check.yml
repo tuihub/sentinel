@@ -19,6 +19,7 @@ jobs:
       - uses: moonrepo/setup-rust@v1
         with:
           channel: nightly
+          components: rustfmt
       - run: cargo fmt
       - uses: moonrepo/setup-rust@v1
         with:
