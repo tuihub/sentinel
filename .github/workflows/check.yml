@@ -19,11 +19,11 @@ jobs:
       - uses: moonrepo/setup-rust@v1
         with:
           channel: nightly
-        run: cargo fmt
+      - run: cargo fmt
       - uses: moonrepo/setup-rust@v1
         with:
           channel: stable
-        run: cargo check
+      - run: cargo check
 
       - name: Apply Changes
         uses: stefanzweifel/git-auto-commit-action@v4
