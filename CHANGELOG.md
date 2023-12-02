@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.5](https://github.com/tuihub/sentinel/compare/v0.0.4...v0.0.5) (2023-12-02)
+
+
+### Features
+
+* add process tracing ([a6acaa5](https://github.com/tuihub/sentinel/commit/a6acaa530f3abe37ff53f8a4ad15fa09273c846f))
+* add transfer-cli ([d294381](https://github.com/tuihub/sentinel/commit/d2943814b0e87a857c6a8806af821d6b3f9e8283))
+
+
+### Bug Fixes
+
+* file upload ([811655c](https://github.com/tuihub/sentinel/commit/811655c5f71c4ba3b1954fd4dc96a2e6bf6fe8cd))
+* update process tracing ([65fe15d](https://github.com/tuihub/sentinel/commit/65fe15d4fd5788169ed527a0930028e533369342))
+
 ## [0.0.4](https://github.com/TuiHub/Sentinel/compare/v0.0.3...v0.0.4) (2023-04-10)
 
 
